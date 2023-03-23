@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { Row, Col, Card, Button } from "react-bootstrap";
+import { create as ipfsHttpClient } from "ipfs-http-client";
+const auth =
+  "Basic " +
+  btoa(
+    "2MJEo6qegjyxHarloYlEKgpUREW" + ":" + "775a49da6f0f545e1e98be615d8fdb3f"
+  );
 
 const Home = ({ marketplace, nft }) => {
   const [loading, setLoading] = useState(true);
@@ -13,22 +19,31 @@ const Home = ({ marketplace, nft }) => {
       const item = await marketplace.items(i);
       if (!item.sold) {
         // get uri url from nft contract
+        //we can get the ipfs url like this
         const uri = await nft.tokenURI(item.tokenId);
-        console.log({ uri });
+
+        const response = await fetch(uri).then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        });
+
         // use uri to fetch the nft metadata stored on ipfs
-        // const response = await fetch(uri)
-        // const metadata = await response.json()
+
+        const metadata = await response;
+        console.log({ metadata });
         // // get total price of item (item price + fee)
-        // const totalPrice = await marketplace.getTotalPrice(item.itemId)
+        const totalPrice = await marketplace.getTotalPrice(item.itemId);
         // // Add item to items array
-        // items.push({
-        //   totalPrice,
-        //   itemId: item.itemId,
-        //   seller: item.seller,
-        //   name: metadata.name,
-        //   description: metadata.description,
-        //   image: metadata.image
-        // })
+        items.push({
+          totalPrice,
+          itemId: item.itemId,
+          seller: item.seller,
+          name: metadata.name,
+          description: metadata.description,
+          image: metadata.image,
+        });
       }
     }
     await setLoading(false);
