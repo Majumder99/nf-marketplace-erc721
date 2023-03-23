@@ -66,6 +66,7 @@ const Home = ({ marketplace, nft }) => {
         <h2>Loading...</h2>
       </main>
     );
+console.log("go");
   return (
     <div className="flex justify-center">
       {items.length > 0 ? (
