@@ -1,5 +1,10 @@
 import { ethers } from "ethers";
 import { useState } from "react";
+import Navigation from "./Navbar";
+import Home from "./Home.jsx";
+import Create from "./Create.jsx";
+import MyListedItems from "./MyListedItems.jsx";
+import MyPurchases from "./MyPurchases.jsx";
 import MarketplaceAddress from "../contractsData/Marketplace-address.json";
 import MarketplaceAbi from "../contractsData/Marketplace.json";
 import NFTAddress from "../contractsData/NFT-address.json";
