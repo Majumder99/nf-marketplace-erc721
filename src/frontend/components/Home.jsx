@@ -32,7 +32,7 @@ const Home = ({ marketplace, nft }) => {
         // use uri to fetch the nft metadata stored on ipfs
 
         const metadata = await response;
-        console.log({ metadata });
+        //console.log({ metadata });
         // // get total price of item (item price + fee)
         const totalPrice = await marketplace.getTotalPrice(item.itemId);
         // // Add item to items array
